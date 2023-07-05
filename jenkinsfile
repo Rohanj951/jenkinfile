@@ -1,0 +1,80 @@
+pipeline {
+    agent any
+    environment {
+        name = 'rohan'
+        
+    }
+    parameters {
+        string(name: 'person', defaultValue: 'Rohan Jain', description: 'who are you')
+        booleanParam(name: 'male', defaultValue: false, description: '')
+        booleanParam(name: 'female', defaultValue: false, description: '')
+        choice(name: 'City', choices: ['jaipur','udiapur','mumbai'], description: '')
+    }
+    stages {
+        stage('test') {
+            steps {
+                echo 'Hello test'
+                sh 'ls'
+            }
+        }    
+        stage('build') {
+            environment {
+                name1 = 'test1'
+            }
+            steps {
+                echo 'buid'
+                sh 'ls'
+                sh 'pwd'
+                sh 'echo "${name}"'
+                sh 'echo "${name1}"'
+                sh 'echo "${person}"'
+                sh 'echo "${male}"'
+                sh 'echo "${female}"'
+                sh 'echo "${City}"'
+            }
+        }    
+        stage('environment') {
+            steps {
+               sh 'echo "${BUILD_ID}"'
+               sh 'echo "${name}"'
+            } 
+        }    
+        stage('deploy-test') {
+            steps {
+                echo 'deploy-test'
+                sh 'ls'
+                sh 'date'
+            }
+        } 
+        stage('continue ?') {
+            input {
+                message "Should we continue?"
+                ok "Yes, we should."
+            }
+            steps {
+                echo 'test done'
+            }
+        }    
+        stage('prod') {
+            steps {
+                echo 'prod'
+                sh '''
+                ls 
+                date
+                pwd
+                '''
+            } 
+        }    
+    }
+    post {
+        always {
+            echo 'I will always run'
+        }
+        failure {
+            echo 'I will run on failure'
+        }
+        success {
+            echo 'I only run on success'
+        }
+    }
+}
