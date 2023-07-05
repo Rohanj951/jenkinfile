@@ -3,17 +3,19 @@ pipeline{
         label "node"
     }
     stages{
-        stage("A"){
+        stage("test"){
             steps{
-                echo "================"
+                echo "========test A========"
             }
-            stage("B"){
+        }
+        stage("build"){
             steps{
-                echo "========build========"
+                echo "========build A========"
             }
-            stage("C"){
+        }
+        stage("deploy"){
             steps{
-                echo "========deploy========"
+                echo "========deploy A========"
             }
         }
     }
